@@ -1,1 +1,3 @@
 *.exe
+*-main.c
+print_array.c

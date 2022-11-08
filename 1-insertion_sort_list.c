@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include "sort.h"
+
+/**
+ * insertion_sort - It a sorting alogrithm that sort in place, place item in it right place
+ * @array: linklist to sort
+ * @size: Size of the dataset
+ */
+void insertion_sort_list(listint_t **list)
+{
+    listint_t *temp;
+	listint_t *current;
+	listint_t *node;
+
+	if (list == NULL || (*list)->next == NULL || !(*list))
+		return;
+
+	current = (*list)->next;
+	while (current != NULL)
+	{
+		if (current->prev != NULL)
+		{
+			if (current->n < current->prev->n)
+			{
+				temp = current->prev;
+				node = current->next;
+				current->prev = temp->prev;
+				current->next = temp;
+				if (current->prev != NULL)
+					current->prev->next = current;
+
+				temp->prev = current;
+				temp->next = node;
+				if (node != NULL)
+					node->prev = temp;
+				if (current->prev == NULL)
+					*list = current;
+
+				print_list(*list);
+			}
+			else
+				current = current->next;
+		}
+		else
+			current = current->next;
+	}
+}
