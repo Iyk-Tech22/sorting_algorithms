@@ -16,7 +16,7 @@ void bubble_sort(int *array, size_t size)
     int i, j, is_swap;
 
     // if size is <= 2 break
-        if (size <= 2)
+        if (size < 2)
             return;
     // loop from i to the size of the array
     for (i = 1; i < size; ++i)
