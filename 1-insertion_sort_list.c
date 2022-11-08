@@ -1,47 +1,36 @@
-#include <stdio.h>
 #include "sort.h"
 
 /**
- * insertion_sort - It a sorting alogrithm that sort in place, place item in it right place
- * @array: linklist to sort
- * @size: Size of the dataset
+ * insertion_sort_list - sorts a doubly linked list of integers in ascending
+ * order using the Insertion sort algorithm
+ * @list: Double pointer to the head of the linked list
+ *
+ * Return: void
  */
 void insertion_sort_list(listint_t **list)
 {
-    listint_t *temp;
-	listint_t *current;
-	listint_t *node;
+	listint_t *swap_node, *next_swap;
 
-	if (list == NULL || (*list)->next == NULL || !(*list))
+	if (list == NULL || *list == NULL)
 		return;
-
-	current = (*list)->next;
-	while (current != NULL)
+	swap_node = (*list)->next;
+	while (swap_node != NULL)
 	{
-		if (current->prev != NULL)
+		next_swap = swap_node->next;
+		while (swap_node->prev != NULL && swap_node->prev->n > swap_node->n)
 		{
-			if (current->n < current->prev->n)
-			{
-				temp = current->prev;
-				node = current->next;
-				current->prev = temp->prev;
-				current->next = temp;
-				if (current->prev != NULL)
-					current->prev->next = current;
-
-				temp->prev = current;
-				temp->next = node;
-				if (node != NULL)
-					node->prev = temp;
-				if (current->prev == NULL)
-					*list = current;
-
-				print_list(*list);
-			}
+			swap_node->prev->next = swap_node->next;
+			if (swap_node->next != NULL)
+				swap_node->next->prev = swap_node->prev;
+			swap_node->next = swap_node->prev;
+			swap_node->prev = swap_node->next->prev;
+			swap_node->next->prev = swap_node;
+			if (swap_node->prev == NULL)
+				*list = swap_node;
 			else
-				current = current->next;
+				swap_node->prev->next = swap_node;
+			print_list(*list);
 		}
-		else
-			current = current->next;
+		swap_node = next_swap;
 	}
 }
